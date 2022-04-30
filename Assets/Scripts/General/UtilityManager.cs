@@ -4,10 +4,11 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using TMPro;
+using System;
 
 public sealed class UtilityManager : MonoBehaviour
 {
-    private static UtilityManager instance = new UtilityManager();
+    public static UtilityManager instance = new UtilityManager();
     List<ThoughtBubble> CurrentEffects = new List<ThoughtBubble>();
     public Color SelectedColour;
     public Color NormalColour;
@@ -68,6 +69,21 @@ public sealed class UtilityManager : MonoBehaviour
             curColor.a = Mathf.Lerp(curColor.a, targetAlpha, FadeRate * Time.deltaTime);
             blackBox.color = curColor;
             yield return null;
+        }
+    }
+
+
+
+    ///EVENTS
+    ///
+
+    public event Action onDoorAoeTriggerEnter;
+
+    public void DoorwayAoeTriggerEnter()
+    {
+        if (onDoorAoeTriggerEnter != null)
+        { 
+        
         }
     }
 }

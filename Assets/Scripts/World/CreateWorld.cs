@@ -2,8 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CreateWorld : MonoBehaviour
+public sealed  class CreateWorld : MonoBehaviour
 {
+private static CreateWorld instance = new CreateWorld();
+
     Mesh mesh;
     MeshCollider mc;
     Vector3[] vertices;
@@ -21,6 +23,23 @@ public class CreateWorld : MonoBehaviour
     [SerializeField] float SpawnRadius;
 
     Vector3 spawnPoint;
+
+    public void Awake(){
+        if(instance == null) {
+            instance = this;        
+        }
+    }
+
+    static CreateWorld(){
+    }
+
+    private CreateWorld(){
+
+    }
+
+    public static CreateWorld Instance{
+        get{return instance;}   
+    }
 
     void Start(){
          mesh = new Mesh();
@@ -95,6 +114,11 @@ public class CreateWorld : MonoBehaviour
         }
     }
 
+    public void SpawnObject(GameObject _object){
+        Vector3 pos = FindPos();
+        if(pos != Vector3.zero) Spawn(_object, pos);
+    }
+
     Vector3 FindPos(){
         Vector3 ItemPosition = new Vector3();
         bool ready = false;
@@ -116,8 +140,11 @@ public class CreateWorld : MonoBehaviour
     void Spawn(Vector3 pos){
         GameObject go = Instantiate(trees[Random.Range(0, trees.Length)], pos, Quaternion.Euler(new Vector3(0, Random.Range(0, 360), 0)), transform);
     }
-}
 
+     void Spawn(GameObject _object, Vector3 pos){
+        GameObject go = Instantiate(_object, pos, Quaternion.Euler(new Vector3(0, Random.Range(0, 360), 0)), transform);
+    }
+}
 
 [System.Serializable]
 public class NoiseLayer

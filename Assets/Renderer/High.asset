@@ -31,13 +31,13 @@ MonoBehaviour:
   active: 1
   lift:
     m_OverrideState: 1
-    m_Value: {x: 1, y: 0.9415062, z: 0.89039505, w: -0.027285129}
+    m_Value: {x: 0.5176734, y: 1, z: 0.6168525, w: -0.027285129}
   gamma:
     m_OverrideState: 1
-    m_Value: {x: 0.80923045, y: 0.7410296, z: 1, w: 0}
+    m_Value: {x: 0.38716555, y: 0.46710804, z: 1, w: -0.027285129}
   gain:
     m_OverrideState: 1
-    m_Value: {x: 0.83085465, y: 0.673265, z: 1, w: 0}
+    m_Value: {x: 1, y: 0.05411446, z: 0.7527155, w: 0}
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -48,7 +48,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d7fd9488000d3734a9e00ee676215985, type: 3}
-  m_Name: Normal
+  m_Name: High
   m_EditorClassIdentifier: 
   components:
   - {fileID: -8308492540650375636}
@@ -121,7 +121,7 @@ MonoBehaviour:
     m_Value: 0.9
   intensity:
     m_OverrideState: 1
-    m_Value: 0.3
+    m_Value: 5
   scatter:
     m_OverrideState: 1
     m_Value: 0.7
@@ -192,7 +192,7 @@ MonoBehaviour:
     m_Value: {x: 0.5, y: 0.5}
   intensity:
     m_OverrideState: 1
-    m_Value: 0.299
+    m_Value: 0.1
   smoothness:
     m_OverrideState: 1
     m_Value: 0.772

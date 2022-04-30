@@ -2,8 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CreateWorld : MonoBehaviour
+public sealed  class CreateWorld : MonoBehaviour
 {
+private static CreateWorld instance = new CreateWorld();
+
     Mesh mesh;
     MeshCollider mc;
     Vector3[] vertices;
@@ -12,21 +14,44 @@ public class CreateWorld : MonoBehaviour
     MeshRenderer meshRenderer;
     Texture2D terrainTexture;
 
+
     [SerializeField] Vector2Int WorldSize;
     [SerializeField] List<NoiseLayer> noiseLayers = new List<NoiseLayer>();
 
     [SerializeField] GameObject[] trees;
+    [SerializeField] float treeAmount;
+    [SerializeField] float SpawnRadius;
+
+    Vector3 spawnPoint;
+
+    public void Awake(){
+        if(instance == null) {
+            instance = this;        
+        }
+    }
+
+    static CreateWorld(){
+    }
+
+    private CreateWorld(){
+
+    }
+
+    public static CreateWorld Instance{
+        get{return instance;}   
+    }
 
     void Start(){
          mesh = new Mesh();
          mc = GetComponent<MeshCollider>();
-         
+         spawnPoint = new Vector3(WorldSize.x/2f,50f,WorldSize.y/2f);
          terrainTexture = new Texture2D(WorldSize.x, WorldSize.y);
          meshRenderer = GetComponent<MeshRenderer>();
          GetComponent<MeshFilter>().mesh = mesh;
          CreateShape();
          UpdateMesh();
          SpawnTrees();
+         GameEffects.Instance.StartEffects();
     }
 
     void CreateShape(){
@@ -83,10 +108,43 @@ public class CreateWorld : MonoBehaviour
     }
 
     void SpawnTrees(){
-        
+        for(int x = 0; x <= treeAmount; x++){
+            Vector3 pos = FindPos();
+            if(pos != Vector3.zero) Spawn(pos);
+        }
+    }
+
+    public void SpawnObject(GameObject _object){
+        Vector3 pos = FindPos();
+        if(pos != Vector3.zero) Spawn(_object, pos);
+    }
+
+    Vector3 FindPos(){
+        Vector3 ItemPosition = new Vector3();
+        bool ready = false;
+        int x = 0;
+        while(!ready){
+            Vector3 topPosition = (Vector3)Random.insideUnitCircle * SpawnRadius;
+             topPosition = new Vector3 (topPosition.x + spawnPoint.x, spawnPoint.y, topPosition.y+ spawnPoint.z);  
+            Vector3 placePosition = UtilityManager.Instance.ShootRayCastDown(topPosition);
+            if(placePosition != Vector3.zero) {
+                ready = true;
+                ItemPosition = placePosition;
+            }
+            x++;
+            if( x > 50) return Vector3.zero;
+        }
+        return ItemPosition;
+    }
+
+    void Spawn(Vector3 pos){
+        GameObject go = Instantiate(trees[Random.Range(0, trees.Length)], pos, Quaternion.Euler(new Vector3(0, Random.Range(0, 360), 0)), transform);
+    }
+
+     void Spawn(GameObject _object, Vector3 pos){
+        GameObject go = Instantiate(_object, pos, Quaternion.Euler(new Vector3(0, Random.Range(0, 360), 0)), transform);
     }
 }
-
 
 [System.Serializable]
 public class NoiseLayer

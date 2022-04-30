@@ -14,6 +14,9 @@ public sealed class UtilityManager : MonoBehaviour
     public Color NormalColour;
     [SerializeField] float moveTextSpeed;
 
+    public int winConditionstoWin = 1;
+    int currentWinConditions = 0;
+
     public RawImage blackBox;
 
     public void Awake(){
@@ -77,13 +80,34 @@ public sealed class UtilityManager : MonoBehaviour
     ///EVENTS
     ///
 
-    public event Action onDoorAoeTriggerEnter;
+    public event Action<int> onDoorAoeTriggerEnter;
+    public event Action onWinConditionMet;
 
-    public void DoorwayAoeTriggerEnter()
+    public event Action<int> onWinConditionModified;
+
+    public void DoorAoeTriggerEnter(int ID)
     {
         if (onDoorAoeTriggerEnter != null)
-        { 
-        
+        {
+            Debug.Log("utility event");
+            onDoorAoeTriggerEnter(ID);
+        }
+    }
+
+    public void WinConditionModify(int amount)
+    {
+        currentWinConditions += amount;
+        if (currentWinConditions >= winConditionstoWin)
+        {
+            Debug.Log("Win Condition has been met");
+            if (onWinConditionMet != null)
+            {
+                onWinConditionMet();
+            }
+        }
+        if (onWinConditionModified != null)
+        {
+            onWinConditionModified(currentWinConditions);
         }
     }
 }

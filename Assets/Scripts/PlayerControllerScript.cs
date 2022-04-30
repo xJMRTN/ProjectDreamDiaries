@@ -49,6 +49,7 @@ public class PlayerControllerScript : MonoBehaviour
         }
 
 
+
     }
 
     void movePlayer()
@@ -61,7 +62,14 @@ public class PlayerControllerScript : MonoBehaviour
 
         Vector3 move = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
         move = this.transform.TransformDirection(move);
-        cc.Move(move * Time.deltaTime * speed);
+        if (Input.GetButton("Sprint"))
+        {
+            cc.Move(move * Time.deltaTime * speed*1.5f);
+        }
+        else
+        {
+            cc.Move(move * Time.deltaTime * speed);
+        }
 
 
         if (Input.GetButtonDown("Jump") && grounded)

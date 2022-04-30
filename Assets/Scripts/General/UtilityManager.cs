@@ -72,6 +72,16 @@ public sealed class UtilityManager : MonoBehaviour
         }
     }
 
+    public Vector3 ShootRayCastDown(Vector3 startPos){
+        RaycastHit hit = new RaycastHit();
+        if(Physics.Raycast(startPos, -Vector3.up, out hit)){
+            if(hit.transform.tag == "World"){
+                return hit.point;
+            }
+        }
+        return Vector3.zero;
+    }
+
 
 
     ///EVENTS

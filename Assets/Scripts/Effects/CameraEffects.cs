@@ -27,6 +27,7 @@ public sealed class CameraEffects : MonoBehaviour
     LensDistortion ld;
     PaniniProjection pp;
     LiftGammaGain LGG;
+    DepthOfField dof;
 
     [SerializeField] Vector2 xMRange;
     [SerializeField] Vector2 yMRange;
@@ -42,6 +43,9 @@ public sealed class CameraEffects : MonoBehaviour
 
     bool busy = false;
     bool colourBusy = false;
+    bool inWater;
+    [SerializeField] Transform water;
+    [SerializeField] Transform HeadPoint;
 
     public void Awake(){
         if(instance == null) {
@@ -83,6 +87,13 @@ public sealed class CameraEffects : MonoBehaviour
              break;       
         }    
 
+        DepthOfField dofTemp;
+        if(CameraVolume.profile.TryGet(out dofTemp)){
+            dof = dofTemp;
+        }
+            
+       
+
         if(CameraDistortion){
             SetupDistortion();
         } 
@@ -122,6 +133,8 @@ public sealed class CameraEffects : MonoBehaviour
             if(!colourBusy) StartCoroutine(CalculateColours());
             ChangeColours();
         }
+
+        CheckIfInWater();
        
     }
 
@@ -187,5 +200,17 @@ public sealed class CameraEffects : MonoBehaviour
         ld.scale.Override(newScale);
         ld.xMultiplier.Override(newX);
         ld.yMultiplier.Override(newY);
+    }
+
+    void CheckIfInWater(){
+        if(HeadPoint.position.y < water.position.y && !inWater){
+            inWater = true;
+            dof.focalLength.value = 220f;
+        }
+
+        if(HeadPoint.position.y > water.position.y && inWater){
+            inWater = false;
+            dof.focalLength.value = 50f;
+        }
     }
 }

@@ -11,6 +11,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] float StartTime;
     [SerializeField] Vector3 timerPos;
 
+
     enum BedroomState{
         MainMenu,
         Thoughts,
@@ -21,7 +22,7 @@ public class UIManager : MonoBehaviour
     bool startTimer = false;
 
     void Start(){
-        bedroomState = BedroomState.MainMenu;
+        bedroomState = BedroomState.MainMenu;    
     }
 
     void Update(){
@@ -38,6 +39,7 @@ public class UIManager : MonoBehaviour
             if(StartTime <= 0) {
                 bedroomState = BedroomState.LoadingGame;
                 StartCoroutine(UtilityManager.Instance.ScreenFade(0.6f, true, 0f));
+                StartCoroutine(UtilityManager.Instance.ChangeScene(1, 3f));
             }
         }
     }
@@ -57,4 +59,6 @@ public class UIManager : MonoBehaviour
         UtilityManager.Instance.MoveText(StartTimer, timerPos);
         startTimer = true;
     }
+
+
 }

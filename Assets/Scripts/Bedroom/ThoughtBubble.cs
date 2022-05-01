@@ -3,6 +3,9 @@ using UnityEngine.UI;
 
 public class ThoughtBubble : MonoBehaviour
 {
+    [SerializeField] Sprite NormalImage;
+    [SerializeField] Sprite GlowImage;
+    [SerializeField] Sprite QuestionMark;
     [SerializeField] enum ThoughtEffect{
         Noir,
         Fried,
@@ -20,11 +23,13 @@ public class ThoughtBubble : MonoBehaviour
     public enum ThoughtCategory{
            Camera,
            Objective,
-           Modifier
+           Modifier,
     }
 
     [SerializeField] ThoughtEffect effect;
     public ThoughtCategory cat;
+
+    public bool random = false;
 
     public float dreamChance;
     bool selected = false;
@@ -38,16 +43,22 @@ public class ThoughtBubble : MonoBehaviour
     public string effectName;
     public bool unlocked = false;
 
-    void Start(){
+    void Awake(){
         ButtonSelect.clip = Select;
         buttonColour = this.GetComponent<Image>();      
     }
 
     public void Setup(){
-        if(unlocked)
-            UtilityManager.Instance.SetText(ButtonText, effectName);
-         else
-            UtilityManager.Instance.SetText(ButtonText, "?");
+        if(random) return;
+        Debug.Log("Setting up: " + name);
+        if(unlocked){
+            buttonColour.sprite = NormalImage;
+        }
+         else{
+             Debug.Log(buttonColour);
+             Debug.Log(QuestionMark);
+            buttonColour.sprite = QuestionMark;
+         }       
     }
 
     public void ThoughtSelected(){
@@ -57,17 +68,20 @@ public class ThoughtBubble : MonoBehaviour
         if(selected){
             ButtonSelect.Play();
              UtilityManager.Instance.AddToEffectList(this);
-             buttonColour.color = UtilityManager.Instance.SelectedColour;
+             //buttonColour.color = UtilityManager.Instance.SelectedColour;
+             buttonColour.sprite = GlowImage;
         }
         else {
             ButtonSelect.Play();
             UtilityManager.Instance.RemoveFromEffectList(this);
-            buttonColour.color = UtilityManager.Instance.NormalColour;
+            //buttonColour.color = UtilityManager.Instance.NormalColour;
+             buttonColour.sprite = NormalImage;
         }
     }
 
     public void Deselect(){
-        buttonColour.color = UtilityManager.Instance.NormalColour;
+        //buttonColour.color = UtilityManager.Instance.NormalColour;
+        buttonColour.sprite = NormalImage;
         selected = false;
     }
 }

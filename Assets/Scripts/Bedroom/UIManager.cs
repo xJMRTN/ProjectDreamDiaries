@@ -6,10 +6,6 @@ public class UIManager : MonoBehaviour
 {
     [SerializeField] GameObject MainMenuObjects;
     [SerializeField] GameObject ThoughtBubbles;
-    [SerializeField] GameObject StartTimer;
-    [SerializeField] float TransitionSpeed;
-    [SerializeField] float StartTime;
-    [SerializeField] Vector3 timerPos;
     Vector3 timerStartPos;
 
     [SerializeField] AudioClip Nightmare;
@@ -18,10 +14,10 @@ public class UIManager : MonoBehaviour
 
     [SerializeField] GameObject BedroomImage;
     [SerializeField] float BedroomZoomScale;
+    [SerializeField] float TransitionSpeed;
 
 
     enum BedroomState{
-        MainMenu,
         Thoughts,
         LoadingGame
     }
@@ -31,8 +27,8 @@ public class UIManager : MonoBehaviour
 
     void Start(){
         Cursor.lockState = CursorLockMode.None;
-        bedroomState = BedroomState.MainMenu;    
-        timerStartPos = StartTimer.transform.position;
+        bedroomState = BedroomState.Thoughts;    
+        UtilityManager.Instance.OpenText(ThoughtBubbles, TransitionSpeed);
     }
 
     void Update(){
@@ -43,23 +39,18 @@ public class UIManager : MonoBehaviour
             return;
         }
 
-        if(bedroomState == BedroomState.MainMenu){
-            WaitForClick();
-            return;
-        }
-
-        if(startTimer){
-            StartTime -= Time.deltaTime;
-            UtilityManager.Instance.SetText(StartTimer, "Deep sleep starts in " + StartTime.ToString("F0"));
-            if(StartTime <= 0) {
-                bedroomState = BedroomState.LoadingGame;
-                StartCoroutine(UtilityManager.Instance.ScreenFade(0.9f, true, 0f));
-                 UtilityManager.Instance.CloseText(ThoughtBubbles, TransitionSpeed);
-                 UtilityManager.Instance.MoveText(StartTimer, timerStartPos);
-                DecideGameChoices();
-                StartCoroutine(UtilityManager.Instance.ChangeScene(1, 10f));
-            }
-        }
+        // if(startTimer){
+        //     StartTime -= Time.deltaTime;
+        //     UtilityManager.Instance.SetText(StartTimer, "Deep sleep starts in " + StartTime.ToString("F0"));
+        //     if(StartTime <= 0) {
+        //         bedroomState = BedroomState.LoadingGame;
+        //         StartCoroutine(UtilityManager.Instance.ScreenFade(0.9f, true, 0f));
+        //          UtilityManager.Instance.CloseText(ThoughtBubbles, TransitionSpeed);
+        //          UtilityManager.Instance.MoveText(StartTimer, timerStartPos);
+        //         DecideGameChoices();
+        //         StartCoroutine(UtilityManager.Instance.ChangeScene(1, 10f));
+        //     }
+        // }
     }
 
     void DecideGameChoices(){
@@ -81,19 +72,24 @@ public class UIManager : MonoBehaviour
 
 
         foreach(ThoughtBubble bubble in UtilityManager.Instance.CurrentEffects){
-            Debug.Log(bubble.effectName + " " + bubble.dreamChance + "%");
-            DreamChance += bubble.dreamChance;
+            Debug.Log(bubble.effectName + " " + bubble.dreamChance + "%");       
             switch(bubble.cat){
                 case ThoughtBubble.ThoughtCategory.Camera:
+                    if(bubble.random) break;
                     PlayerPrefs.SetString("CameraChoice", bubble.effectName);
+                    DreamChance += bubble.dreamChance;
                     cameraChoice = true;
                     break;
                 case ThoughtBubble.ThoughtCategory.Modifier:
+                    if(bubble.random) break;
                     PlayerPrefs.SetString("ModifierChoice", bubble.effectName);
+                    DreamChance += bubble.dreamChance;
                     modifierChoice = true;
                     break;
                 case ThoughtBubble.ThoughtCategory.Objective:
+                    if(bubble.random) break;
                     PlayerPrefs.SetString("ObjectiveChoice", bubble.effectName);
+                    DreamChance += bubble.dreamChance;
                     objectiveChoice = true;
                     break;
             }
@@ -113,19 +109,19 @@ public class UIManager : MonoBehaviour
             int randomEffect = Random.Range(0, UtilityManager.Instance.bubbles.Length);
             ThoughtBubble tempBubble = UtilityManager.Instance.bubbles[randomEffect];
 
-            if(tempBubble.cat == ThoughtBubble.ThoughtCategory.Camera && !cameraChoice){
+            if(tempBubble.cat == ThoughtBubble.ThoughtCategory.Camera && !cameraChoice && !tempBubble.random){
                 DreamChance += tempBubble.dreamChance;
                 PlayerPrefs.SetString("CameraChoice", tempBubble.effectName);
                 cameraChoice = true;
             }
 
-            if(tempBubble.cat == ThoughtBubble.ThoughtCategory.Modifier && !modifierChoice){
+            if(tempBubble.cat == ThoughtBubble.ThoughtCategory.Modifier && !modifierChoice && !tempBubble.random){
                 DreamChance += tempBubble.dreamChance;
                 modifierChoice = true;
                 PlayerPrefs.SetString("ModifierChoice", tempBubble.effectName);
             }
 
-            if(tempBubble.cat == ThoughtBubble.ThoughtCategory.Objective && !objectiveChoice){
+            if(tempBubble.cat == ThoughtBubble.ThoughtCategory.Objective && !objectiveChoice && !tempBubble.random){
                 DreamChance += tempBubble.dreamChance;
                 objectiveChoice = true;
                 PlayerPrefs.SetString("ObjectiveChoice", tempBubble.effectName);
@@ -160,21 +156,11 @@ public class UIManager : MonoBehaviour
         UtilityManager.Instance.CurrentEffects.Clear();
     }
 
-    void WaitForClick(){
-        if(Input.GetMouseButton(0)){
-            bedroomState = BedroomState.Thoughts;
-            StartCoroutine(SwitchToBedroom());
-        }
-    }  
-
-    IEnumerator SwitchToBedroom(){
-        UtilityManager.Instance.CloseText(MainMenuObjects, TransitionSpeed);
-        yield return new WaitForSeconds(2f);
-        UtilityManager.Instance.OpenText(ThoughtBubbles, TransitionSpeed);
-        yield return new WaitForSeconds(2f);
-        UtilityManager.Instance.MoveText(StartTimer, timerPos);
-        startTimer = true;
+    public void Play(){
+        bedroomState = BedroomState.LoadingGame;
+        StartCoroutine(UtilityManager.Instance.ScreenFade(0.9f, true, 0f));
+        UtilityManager.Instance.CloseText(ThoughtBubbles, TransitionSpeed);
+        DecideGameChoices();
+        StartCoroutine(UtilityManager.Instance.ChangeScene(1, 10f));         
     }
-
-
 }

@@ -39,8 +39,8 @@ public sealed class SaveLoad : MonoBehaviour
         savedGames.Add(GameData.current);
         BinaryFormatter bf = new BinaryFormatter();
         Debug.Log("here");
-        FileStream file = File.Create(Application.persistentDataPath + "/DreamDesigner.dd");
-        Debug.Log(Application.persistentDataPath + "/DreamDesigner.dd");
+        FileStream file = File.Create(Application.persistentDataPath + "/DreamWeaver.dw");
+        Debug.Log(Application.persistentDataPath + "/DreamWeaver.dw");
         bf.Serialize(file, SaveLoad.savedGames);
         file.Close();
         savedGames.Remove(GameData.current);
@@ -48,10 +48,10 @@ public sealed class SaveLoad : MonoBehaviour
     }
 
     public static void Load(){
-        if(File.Exists(Application.persistentDataPath + "/DreamDesigner.dd")){
+        if(File.Exists(Application.persistentDataPath + "/DreamWeaver.dw")){
             savedGames.Clear();
             BinaryFormatter bf = new BinaryFormatter();
-            FileStream file = File.Open(Application.persistentDataPath + "/DreamDesigner.dd", FileMode.Open);
+            FileStream file = File.Open(Application.persistentDataPath + "/DreamWeaver.dw", FileMode.Open);
             SaveLoad.savedGames = (List<GameData>)bf.Deserialize(file);
             GameData.current = SaveLoad.savedGames[0];
             file.Close();

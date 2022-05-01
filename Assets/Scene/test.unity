@@ -2128,6 +2128,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 145a1cda3cc55e84f9cd5d0095552883, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  CurrentEffects: []
   SelectedColour: {r: 0, g: 0, b: 0, a: 0}
   NormalColour: {r: 0, g: 0, b: 0, a: 0}
   moveTextSpeed: 0
@@ -2169,6 +2170,8 @@ MonoBehaviour:
   High: {fileID: 11400000, guid: 223b4aa5dd37a6b4fb6fb0a1aeca62d2, type: 2}
   effect: 2
   CameraDistortion: 0
+  Flooded: 0
+  waterObj: {fileID: 0}
   xMRange: {x: 0, y: 0.4}
   yMRange: {x: 0, y: 0.4}
   scaleRange: {x: 0.6, y: 1.4}

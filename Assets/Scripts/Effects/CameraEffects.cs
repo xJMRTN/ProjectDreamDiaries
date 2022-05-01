@@ -47,7 +47,7 @@ public sealed class CameraEffects : MonoBehaviour
     bool colourBusy = false;
     bool inWater;
     [SerializeField] Transform water;
-    [SerializeField] Transform HeadPoint;
+    public Transform HeadPoint;
 
     public void Awake(){
         if(instance == null) {

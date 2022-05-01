@@ -2171,7 +2171,7 @@ MonoBehaviour:
   effect: 2
   CameraDistortion: 0
   Flooded: 0
-  waterObj: {fileID: 0}
+  waterObj: {fileID: 1187070987}
   xMRange: {x: 0, y: 0.4}
   yMRange: {x: 0, y: 0.4}
   scaleRange: {x: 0.6, y: 1.4}

@@ -119,7 +119,9 @@ public sealed class UtilityManager : MonoBehaviour
             int i = 0;
             foreach(ThoughtBubble bubble in bubbles){
                 if(i == bubbles.Length - 2) return;
+                Debug.Log("Loading " + bubble.name);
                 bubble.unlocked = unlockDatas[i].unlocked;
+                if(bubble.random) bubble.unlocked = true;
                 bubble.Setup();
                 i++;
             }
@@ -128,10 +130,13 @@ public sealed class UtilityManager : MonoBehaviour
 
     public void SetupData(){
         unlockDatas.Clear();
+         int i = 0;
         foreach(ThoughtBubble bubble in bubbles){
+            if(i >= bubbles.Length - 2) break;
             UnlockData newData = new UnlockData(bubble.effectName, bubble.unlocked);
             unlockDatas.Add(newData);
             bubble.Setup();
+            i++;
         }
         SaveGame();
     }

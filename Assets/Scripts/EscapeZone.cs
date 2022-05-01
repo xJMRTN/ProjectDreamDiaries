@@ -21,4 +21,9 @@ public class EscapeZone : MonoBehaviour
     {
         
     }
+
+    private void OnDestroy()
+    {
+        UtilityManager.instance.onWinConditionMet -= openEscape;
+    }
 }

@@ -30,6 +30,7 @@ public class UIManager : MonoBehaviour
     bool startTimer = false;
 
     void Start(){
+        Cursor.lockState = CursorLockMode.None;
         bedroomState = BedroomState.MainMenu;    
         timerStartPos = StartTimer.transform.position;
     }
@@ -74,25 +75,89 @@ public class UIManager : MonoBehaviour
             }
         }
 
+        bool cameraChoice = false;
+        bool modifierChoice = false;
+        bool objectiveChoice = false;
+
 
         foreach(ThoughtBubble bubble in UtilityManager.Instance.CurrentEffects){
-             Debug.Log(bubble.effectName + " " + bubble.dreamChance + "%");
+            Debug.Log(bubble.effectName + " " + bubble.dreamChance + "%");
             DreamChance += bubble.dreamChance;
+            switch(bubble.cat){
+                case ThoughtBubble.ThoughtCategory.Camera:
+                    PlayerPrefs.SetString("CameraChoice", bubble.effectName);
+                    cameraChoice = true;
+                    break;
+                case ThoughtBubble.ThoughtCategory.Modifier:
+                    PlayerPrefs.SetString("ModifierChoice", bubble.effectName);
+                    modifierChoice = true;
+                    break;
+                case ThoughtBubble.ThoughtCategory.Objective:
+                    PlayerPrefs.SetString("ObjectiveChoice", bubble.effectName);
+                    objectiveChoice = true;
+                    break;
+            }
+        }
+
+        bool readyToLaunch = false;
+
+
+
+        while(readyToLaunch == false){
+
+            if(objectiveChoice && modifierChoice && cameraChoice){
+                readyToLaunch = true;
+                break;
+            }
+
+            int randomEffect = Random.Range(0, UtilityManager.Instance.bubbles.Length);
+            ThoughtBubble tempBubble = UtilityManager.Instance.bubbles[randomEffect];
+
+            if(tempBubble.cat == ThoughtBubble.ThoughtCategory.Camera && !cameraChoice){
+                DreamChance += tempBubble.dreamChance;
+                PlayerPrefs.SetString("CameraChoice", tempBubble.effectName);
+                cameraChoice = true;
+            }
+
+            if(tempBubble.cat == ThoughtBubble.ThoughtCategory.Modifier && !modifierChoice){
+                DreamChance += tempBubble.dreamChance;
+                modifierChoice = true;
+                PlayerPrefs.SetString("ModifierChoice", tempBubble.effectName);
+            }
+
+            if(tempBubble.cat == ThoughtBubble.ThoughtCategory.Objective && !objectiveChoice){
+                DreamChance += tempBubble.dreamChance;
+                objectiveChoice = true;
+                PlayerPrefs.SetString("ObjectiveChoice", tempBubble.effectName);
+            }
         }
 
         bool dream;
 
-        if(Random.Range(0f, 100f) <= DreamChance) dream  = true;
-        else dream = false;
+        if(Random.Range(0f, 100f) <= DreamChance){
+            dream  = true;
+            PlayerPrefs.SetInt("Dream", 1);
+        } 
+        else {
+            dream = false;
+            PlayerPrefs.SetInt("Dream", 0);
+        }
+
+        
 
         Debug.Log("Dream Chance = " + DreamChance + "%");
         Debug.Log("Player is having a dream: " + dream);
+        Debug.Log("Camera Effect = "+ PlayerPrefs.GetString("CameraChoice"));
+        Debug.Log("Modifier Effect = "+ PlayerPrefs.GetString("ModifierChoice"));
+        Debug.Log("Objective = " + PlayerPrefs.GetString("ObjectiveChoice"));
+
         if(dream){
             Transition.clip = Dream;
         }else Transition.clip = Nightmare;
 
 
         Transition.Play();
+        UtilityManager.Instance.CurrentEffects.Clear();
     }
 
     void WaitForClick(){

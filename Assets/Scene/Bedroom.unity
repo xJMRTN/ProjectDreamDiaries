@@ -320,6 +320,8 @@ MonoBehaviour:
   - {fileID: 1128655341}
   - {fileID: 637759209}
   - {fileID: 900374380}
+  - {fileID: 2062966019}
+  - {fileID: 609757639}
   unlockDatas: []
   blackBox: {fileID: 1226584615}
 --- !u!114 &168613156
@@ -1447,6 +1449,63 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 604482537}
   m_CullTransparentMesh: 1
+--- !u!1 &609757637
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 609757638}
+  - component: {fileID: 609757639}
+  m_Layer: 5
+  m_Name: Normal - Modifier
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &609757638
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 609757637}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1109208646}
+  m_RootOrder: 11
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &609757639
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 609757637}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a0c7e086aff2d5241b7313bfafdc9303, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  effect: 10
+  cat: 2
+  dreamChance: 10
+  ButtonSelect: {fileID: 900374384}
+  Select: {fileID: 8300000, guid: 7cafa66094a9a5e459c2da9bb03a7b2c, type: 3}
+  ButtonText: {fileID: 1688996828}
+  effectName: Normal
+  unlocked: 1
 --- !u!1 &637759207
 GameObject:
   m_ObjectHideFlags: 0
@@ -2866,6 +2925,8 @@ RectTransform:
   - {fileID: 1128655340}
   - {fileID: 637759208}
   - {fileID: 900374379}
+  - {fileID: 2062966018}
+  - {fileID: 609757638}
   m_Father: {fileID: 1333110896}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -5339,3 +5400,60 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &2062966017
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2062966018}
+  - component: {fileID: 2062966019}
+  m_Layer: 5
+  m_Name: Normal - Camera
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &2062966018
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2062966017}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1109208646}
+  m_RootOrder: 10
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &2062966019
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2062966017}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a0c7e086aff2d5241b7313bfafdc9303, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  effect: 10
+  cat: 0
+  dreamChance: 10
+  ButtonSelect: {fileID: 900374384}
+  Select: {fileID: 8300000, guid: 7cafa66094a9a5e459c2da9bb03a7b2c, type: 3}
+  ButtonText: {fileID: 1688996828}
+  effectName: Normal
+  unlocked: 1

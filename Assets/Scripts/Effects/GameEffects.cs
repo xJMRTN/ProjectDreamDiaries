@@ -33,6 +33,16 @@ public class GameEffects : MonoBehaviour
 
     void Start(){
          UtilityManager.instance.onWinConditionMet += UnlockNewEffect;
+
+         string gameEffect = PlayerPrefs.GetString("ModifierChoice");
+         switch(gameEffect){
+             case "Flipped":
+                effect = GameEffect.Flipped;
+                break;
+             case "Normal":
+                effect = GameEffect.Normal;
+                break;
+         }
     }
 
     void UnlockNewEffect(){

@@ -18,7 +18,7 @@ public sealed class UtilityManager : MonoBehaviour
     int currentWinConditions = 0;
 
     private static GameData gd = new GameData();
-    [SerializeField] ThoughtBubble[] bubbles;
+    public ThoughtBubble[] bubbles;
     public List<UnlockData> unlockDatas = new List<UnlockData>();
 
     public RawImage blackBox;
@@ -42,6 +42,7 @@ public sealed class UtilityManager : MonoBehaviour
     }
 
     public void Start(){
+        
         if(GameData.current != null) LoadGame();
         else SetupData();
     }
@@ -65,6 +66,11 @@ public sealed class UtilityManager : MonoBehaviour
                 RemoveFromEffectList(bubble);
                 break;
             }         
+        }
+
+        if(CurrentEffects.Count == 2){
+            CurrentEffects[0].Deselect();
+            RemoveFromEffectList(CurrentEffects[0]);
         }
         CurrentEffects.Add(effect);     
     }
@@ -112,6 +118,7 @@ public sealed class UtilityManager : MonoBehaviour
             unlockDatas = GameData.current.unlockDatas;
             int i = 0;
             foreach(ThoughtBubble bubble in bubbles){
+                if(i == bubbles.Length - 2) return;
                 bubble.unlocked = unlockDatas[i].unlocked;
                 bubble.Setup();
                 i++;

@@ -67,6 +67,35 @@ public sealed class CameraEffects : MonoBehaviour
     }
 
     void Start(){
+        string gameEffect = PlayerPrefs.GetString("ModifierChoice");
+         switch(gameEffect){
+             case "Flood":
+                Flooded = true;
+                break;
+             case "Distort":
+                CameraDistortion = true;
+                break;
+         }
+
+        string cameraEffect = PlayerPrefs.GetString("CameraChoice");
+         switch(cameraEffect){
+             case "Fried":
+                effect = CameraEffect.Fried;
+                break;
+             case "Noir":
+                effect = CameraEffect.Noir;
+                break;
+            case "Normal":
+                effect = CameraEffect.Normal;
+                break;
+            case "High":
+                effect = CameraEffect.High;
+                break;
+         }
+
+
+
+
         if(Flooded) waterObj.SetActive(true);
         switch(effect){
             case CameraEffect.Normal:

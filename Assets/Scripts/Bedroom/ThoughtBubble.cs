@@ -13,7 +13,8 @@ public class ThoughtBubble : MonoBehaviour
         Survive,
         Sound,
         Key,
-        Find
+        Find,
+        Normal
     }
 
     public enum ThoughtCategory{

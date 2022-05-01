@@ -13,6 +13,8 @@ public class PlayerControllerScript : MonoBehaviour
     [SerializeField]
     float speed;
 
+    int health = 3;
+
     float mouseSensitivity = 400f;
 
     float xRotation = 0f;
@@ -20,6 +22,9 @@ public class PlayerControllerScript : MonoBehaviour
     private Vector3 playerVelocity;
     float jumpHeight = 1.0f;
     float gravityValue = -9.81f;
+
+    bool healing = false;
+    bool invul = false;
 
     [SerializeField]
     Transform holderTransform;
@@ -29,6 +34,7 @@ public class PlayerControllerScript : MonoBehaviour
     void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
+        UtilityManager.instance.onPlayerTakeDamage += takeDamage;
     }
 
     // Update is called once per frame
@@ -111,9 +117,41 @@ public class PlayerControllerScript : MonoBehaviour
         return null;
     }
 
-    void pickUpObject()
-    { 
-    
+    void takeDamage()
+    {
+        if (!invul)
+        {
+            StartCoroutine("iframeTimer");
+            health -= 1;
+            StartCoroutine("healingTimer");
+        }
+
+        if (health == 0)
+        {
+            die();
+        }
+    }
+
+    void die()
+    {
+        UtilityManager.instance.PlayerDie();
+    }
+
+    IEnumerator healingTimer()
+    {
+        healing = true;
+        while (health > 3)
+        {
+            yield return new WaitForSeconds(10);
+            health++;
+        }
+        healing = false;
+    }
+    IEnumerator iframeTimer()
+    {
+        invul = true;
+        yield return new WaitForSeconds(2);
+        invul = false;
     }
 }
 

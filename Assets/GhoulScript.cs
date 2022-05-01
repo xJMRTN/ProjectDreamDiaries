@@ -43,7 +43,6 @@ public class GhoulScript : MonoBehaviour
                 destination = new Vector3(Random.Range(-4, 4)+ target.position.x, 0, Random.Range(-4, 4)+target.position.z);
 
                 agent.SetDestination(destination);
-                Debug.Log("fucking thang");
             }
             //if (Vector3.Distance(target.position, transform.position) > 10f)
             //{

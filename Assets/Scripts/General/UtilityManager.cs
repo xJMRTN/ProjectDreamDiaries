@@ -133,6 +133,25 @@ public sealed class UtilityManager : MonoBehaviour
     public event Action onWinConditionMet;
 
     public event Action<int> onWinConditionModified;
+    public event Action onPlayerDie;
+    public event Action onPlayerTakeDamage;
+
+
+    public void PlayerDie()
+    {
+        if (onPlayerDie != null)
+        {
+            onPlayerDie();
+        }
+    }
+    public void PlayerTakeDamge()
+    {
+        if (onPlayerTakeDamage != null)
+        {
+            onPlayerTakeDamage();
+        }
+    }
+
 
     public void DoorAoeTriggerEnter(int ID)
     {

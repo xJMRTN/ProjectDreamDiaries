@@ -23,6 +23,8 @@ public sealed class CameraEffects : MonoBehaviour
     [SerializeField] CameraEffect effect;
 
     [SerializeField] bool CameraDistortion;
+    [SerializeField] bool Flooded;
+    [SerializeField] GameObject waterObj;
 
     LensDistortion ld;
     PaniniProjection pp;
@@ -65,6 +67,7 @@ public sealed class CameraEffects : MonoBehaviour
     }
 
     void Start(){
+        if(Flooded) waterObj.SetActive(true);
         switch(effect){
             case CameraEffect.Normal:
                 CameraVolume.profile = Normal;
@@ -91,6 +94,7 @@ public sealed class CameraEffects : MonoBehaviour
         if(CameraVolume.profile.TryGet(out dofTemp)){
             dof = dofTemp;
         }
+        dof.focalLength.value = 50f;
             
        
 
@@ -134,7 +138,7 @@ public sealed class CameraEffects : MonoBehaviour
             ChangeColours();
         }
 
-        CheckIfInWater();
+        if(Flooded)CheckIfInWater();
        
     }
 

@@ -36,16 +36,20 @@ public class GameEffects : MonoBehaviour
     }
 
     void UnlockNewEffect(){
+        PlayerPrefs.SetInt("Win", 1);
         if(GameData.current.EverythingUnlocked){
             return;
         }
         bool ready = false;
+        int attempt = 0;
         while(!ready){
             int randomValue = Random.Range(0, GameData.current.unlockDatas.Count);
             if(GameData.current.unlockDatas[randomValue].unlocked == false){
                 GameData.current.unlockDatas[randomValue].unlocked = true;
                 ready = true;
             }
+            attempt++;
+            if(attempt > 100) ready = true;
         }
         UtilityManager.Instance.SaveGame();
          StartCoroutine(UtilityManager.Instance.ChangeScene(0, 1f));

@@ -7,7 +7,7 @@ public class ThoughtBubble : MonoBehaviour
         Noir,
         Fried,
         Flood,
-        Normal,
+        Flipped,
         High,
         Distort,
         Survive,
@@ -16,10 +16,19 @@ public class ThoughtBubble : MonoBehaviour
         Find
     }
 
-    [SerializeField] ThoughtEffect effect;
+    public enum ThoughtCategory{
+           Camera,
+           Objective,
+           Modifier
+    }
 
-    public bool bad;
+    [SerializeField] ThoughtEffect effect;
+    public ThoughtCategory cat;
+
+    public float dreamChance;
     bool selected = false;
+    [SerializeField] AudioSource ButtonSelect;
+    [SerializeField] AudioClip Select;
 
     [SerializeField] GameObject ButtonText;
 
@@ -28,9 +37,8 @@ public class ThoughtBubble : MonoBehaviour
     public string effectName;
     public bool unlocked = false;
 
-    [SerializeField] UIManager uIManager;
-
     void Start(){
+        ButtonSelect.clip = Select;
         buttonColour = this.GetComponent<Image>();      
     }
 
@@ -46,12 +54,19 @@ public class ThoughtBubble : MonoBehaviour
 
         selected = !selected;
         if(selected){
+            ButtonSelect.Play();
              UtilityManager.Instance.AddToEffectList(this);
              buttonColour.color = UtilityManager.Instance.SelectedColour;
         }
         else {
+            ButtonSelect.Play();
             UtilityManager.Instance.RemoveFromEffectList(this);
             buttonColour.color = UtilityManager.Instance.NormalColour;
         }
+    }
+
+    public void Deselect(){
+        buttonColour.color = UtilityManager.Instance.NormalColour;
+        selected = false;
     }
 }

@@ -9,7 +9,7 @@ using System;
 public sealed class UtilityManager : MonoBehaviour
 {
     public static UtilityManager instance = new UtilityManager();
-    List<ThoughtBubble> CurrentEffects = new List<ThoughtBubble>();
+    public List<ThoughtBubble> CurrentEffects = new List<ThoughtBubble>();
     public Color SelectedColour;
     public Color NormalColour;
     [SerializeField] float moveTextSpeed;
@@ -59,7 +59,14 @@ public sealed class UtilityManager : MonoBehaviour
     }
 
     public void AddToEffectList(ThoughtBubble effect){
-        CurrentEffects.Add(effect);
+        foreach(ThoughtBubble bubble in CurrentEffects){
+            if(bubble.cat ==  effect.cat) {
+                bubble.Deselect();
+                RemoveFromEffectList(bubble);
+                break;
+            }         
+        }
+        CurrentEffects.Add(effect);     
     }
 
     public void RemoveFromEffectList(ThoughtBubble effect){

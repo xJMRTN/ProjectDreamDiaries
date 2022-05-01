@@ -9,7 +9,7 @@ using System;
 public sealed class UtilityManager : MonoBehaviour
 {
     public static UtilityManager instance = new UtilityManager();
-    List<ThoughtBubble> CurrentEffects = new List<ThoughtBubble>();
+    public List<ThoughtBubble> CurrentEffects = new List<ThoughtBubble>();
     public Color SelectedColour;
     public Color NormalColour;
     [SerializeField] float moveTextSpeed;
@@ -18,7 +18,7 @@ public sealed class UtilityManager : MonoBehaviour
     int currentWinConditions = 0;
 
     private static GameData gd = new GameData();
-    [SerializeField] ThoughtBubble[] bubbles;
+    public ThoughtBubble[] bubbles;
     public List<UnlockData> unlockDatas = new List<UnlockData>();
 
     public RawImage blackBox;
@@ -42,6 +42,7 @@ public sealed class UtilityManager : MonoBehaviour
     }
 
     public void Start(){
+        
         if(GameData.current != null) LoadGame();
         else SetupData();
     }
@@ -59,7 +60,19 @@ public sealed class UtilityManager : MonoBehaviour
     }
 
     public void AddToEffectList(ThoughtBubble effect){
-        CurrentEffects.Add(effect);
+        foreach(ThoughtBubble bubble in CurrentEffects){
+            if(bubble.cat ==  effect.cat) {
+                bubble.Deselect();
+                RemoveFromEffectList(bubble);
+                break;
+            }         
+        }
+
+        if(CurrentEffects.Count == 2){
+            CurrentEffects[0].Deselect();
+            RemoveFromEffectList(CurrentEffects[0]);
+        }
+        CurrentEffects.Add(effect);     
     }
 
     public void RemoveFromEffectList(ThoughtBubble effect){
@@ -105,6 +118,7 @@ public sealed class UtilityManager : MonoBehaviour
             unlockDatas = GameData.current.unlockDatas;
             int i = 0;
             foreach(ThoughtBubble bubble in bubbles){
+                if(i == bubbles.Length - 2) return;
                 bubble.unlocked = unlockDatas[i].unlocked;
                 bubble.Setup();
                 i++;

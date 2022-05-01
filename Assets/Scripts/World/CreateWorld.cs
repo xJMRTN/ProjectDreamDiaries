@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public sealed  class CreateWorld : MonoBehaviour
 {
@@ -21,6 +22,17 @@ private static CreateWorld instance = new CreateWorld();
     [SerializeField] GameObject[] trees;
     [SerializeField] float treeAmount;
     [SerializeField] float SpawnRadius;
+
+
+    [SerializeField] GameObject[] gameLoopObjects;
+    [SerializeField] GameObject[] objectiveObjects;
+    public int amountOfWinConditions;
+    public bool spawnObjectiveObjects;
+    public int idOfObject;
+    public bool spawnGhoul;
+    public int amountOfGhouls;
+    public bool timer;
+
 
     Vector3 spawnPoint;
 
@@ -48,10 +60,15 @@ private static CreateWorld instance = new CreateWorld();
          terrainTexture = new Texture2D(WorldSize.x, WorldSize.y);
          meshRenderer = GetComponent<MeshRenderer>();
          GetComponent<MeshFilter>().mesh = mesh;
+         
+         
          CreateShape();
          UpdateMesh();
-         SpawnTrees();
+        GetComponent<NavMeshSurface>().BuildNavMesh();
+        SpawnTrees();
+        SpawnGameLoop();
          GameEffects.Instance.StartEffects();
+
     }
 
     void CreateShape(){
@@ -112,6 +129,27 @@ private static CreateWorld instance = new CreateWorld();
             Vector3 pos = FindPos();
             if(pos != Vector3.zero) Spawn(pos);
         }
+    }
+
+    void SpawnGameLoop()
+    {
+        SpawnObject(gameLoopObjects[0]);
+        if (spawnGhoul)
+        {
+            for (int x = 0; x < amountOfGhouls; x++)
+            {
+                SpawnObject(gameLoopObjects[1]);
+            }
+        }
+        if (spawnObjectiveObjects)
+        {
+            SpawnObject(gameLoopObjects[2]);
+            for (int x = 0; x < amountOfWinConditions; x++)
+            {
+                SpawnObject(objectiveObjects[idOfObject]);
+            }
+        }
+        SpawnObject(gameLoopObjects[3]);
     }
 
     public void SpawnObject(GameObject _object){

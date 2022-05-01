@@ -31,6 +31,26 @@ public class GameEffects : MonoBehaviour
         get{return instance;}   
     }
 
+    void Start(){
+         UtilityManager.instance.onWinConditionMet += UnlockNewEffect;
+    }
+
+    void UnlockNewEffect(){
+        if(GameData.current.EverythingUnlocked){
+            return;
+        }
+        bool ready = false;
+        while(!ready){
+            int randomValue = Random.Range(0, GameData.current.unlockDatas.Count);
+            if(GameData.current.unlockDatas[randomValue].unlocked == false){
+                GameData.current.unlockDatas[randomValue].unlocked = true;
+                ready = true;
+            }
+        }
+        UtilityManager.Instance.SaveGame();
+         StartCoroutine(UtilityManager.Instance.ChangeScene(0, 1f));
+    }
+
     public void StartEffects(){
         if(effect == GameEffect.Flipped){
             CreateNewLand();

@@ -17,12 +17,17 @@ public sealed class UtilityManager : MonoBehaviour
     public int winConditionstoWin = 1;
     int currentWinConditions = 0;
 
+    private static GameData gd = new GameData();
+    [SerializeField] ThoughtBubble[] bubbles;
+    public List<UnlockData> unlockDatas = new List<UnlockData>();
+
     public RawImage blackBox;
 
     public void Awake(){
         if(instance == null) {
             instance = this;        
         }
+        SaveLoad.Load();
     }
 
     static UtilityManager(){
@@ -34,6 +39,11 @@ public sealed class UtilityManager : MonoBehaviour
 
     public static UtilityManager Instance{
         get{return instance;}   
+    }
+
+    public void Start(){
+        if(GameData.current != null) LoadGame();
+        else SetupData();
     }
     
     public void CloseText(GameObject text, float speed){
@@ -85,7 +95,36 @@ public sealed class UtilityManager : MonoBehaviour
         return Vector3.zero;
     }
 
+    public IEnumerator ChangeScene(int sceneID, float delay){
+        yield return new WaitForSeconds(delay);
+        SceneManager.LoadScene(sceneID);
+    }
 
+    public void LoadGame(){
+        if(SaveLoad.GetCurrentScene() == 0){
+            unlockDatas = GameData.current.unlockDatas;
+            int i = 0;
+            foreach(ThoughtBubble bubble in bubbles){
+                bubble.unlocked = unlockDatas[i].unlocked;
+                bubble.Setup();
+                i++;
+            }
+        }
+    }
+
+    public void SetupData(){
+        unlockDatas.Clear();
+        foreach(ThoughtBubble bubble in bubbles){
+            UnlockData newData = new UnlockData(bubble.effectName, bubble.unlocked);
+            unlockDatas.Add(newData);
+            bubble.Setup();
+        }
+        SaveGame();
+    }
+
+    public void SaveGame(){
+        gd.SaveGame(); 
+    }
 
     ///EVENTS
     ///

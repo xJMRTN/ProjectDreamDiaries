@@ -26,13 +26,13 @@ private static CreateWorld instance = new CreateWorld();
 
     [SerializeField] GameObject[] gameLoopObjects;
     [SerializeField] GameObject[] objectiveObjects;
-    public int amountOfWinConditions;
-    public bool spawnObjectiveObjects;
-    public int idOfObject;
-    public bool spawnGhoul;
-    public int amountOfGhouls;
-    public bool timer;
-    public float timeTotal;
+    //public int amountOfWinConditions;
+    //public bool spawnObjectiveObjects;
+    //public int idOfObject;
+    //public bool spawnGhoul;
+    //public int amountOfGhouls;
+    //public bool timer;
+    //public float timeTotal;
 
 
     Vector3 spawnPoint;
@@ -135,23 +135,53 @@ private static CreateWorld instance = new CreateWorld();
 
     void SpawnGameLoop()
     {
+        string objective = PlayerPrefs.GetString("ObjectiveChoice");
+        string dream = PlayerPrefs.GetString("Dream");
+
+        int amountOfWinConditions;
+        bool spawnObjectiveObjects;
+        bool spawnGhoul;
+        int amountOfGhouls;
+
+
         SpawnObject(gameLoopObjects[0]);
-        if (spawnGhoul)
-        {
-            for (int x = 0; x < amountOfGhouls; x++)
-            {
-                SpawnObject(gameLoopObjects[1]);
-            }
-        }
-        if (spawnObjectiveObjects)
-        {
-            SpawnObject(gameLoopObjects[2]);
-            for (int x = 0; x < amountOfWinConditions; x++)
-            {
-                SpawnObject(objectiveObjects[idOfObject]);
-            }
-        }
         SpawnObject(gameLoopObjects[3]);
+
+        switch (objective)
+        {
+            case "Find":
+                SpawnObject(gameLoopObjects[2]);
+                SpawnObject(objectiveObjects[0]);
+                GameObject.Find("Win Condition Interactable(Clone)").GetComponent<AudioSource>().enabled = false;
+                break;
+            case "Key":
+                
+                break;
+            case "Sound":
+                SpawnObject(gameLoopObjects[2]);
+                SpawnObject(objectiveObjects[1]);
+                break;
+            case "Survive":
+                
+                break;
+        }
+        //SpawnObject(gameLoopObjects[0]);
+        //if (spawnGhoul)
+        //{
+        //    for (int x = 0; x < amountOfGhouls; x++)
+        //    {
+        //        SpawnObject(gameLoopObjects[1]);
+        //    }
+        //}
+        //if (spawnObjectiveObjects)
+        //{
+        //    SpawnObject(gameLoopObjects[2]);
+        //    for (int x = 0; x < amountOfWinConditions; x++)
+        //    {
+        //        SpawnObject(objectiveObjects[idOfObject]);
+        //    }
+        //}
+        //SpawnObject(gameLoopObjects[3]);
     }
 
     public void SpawnObject(GameObject _object){

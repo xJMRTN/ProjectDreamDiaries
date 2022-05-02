@@ -484,6 +484,10 @@ MonoBehaviour:
   moveTextSpeed: 3
   timer: {fileID: 0}
   objectiveText: {fileID: 0}
+  music: {fileID: 0}
+  dreamMusic: {fileID: 0}
+  nightmareMusic: {fileID: 0}
+  inMenu: 1
   winConditionstoWin: 1
   bubbles:
   - {fileID: 1683676955}

@@ -27,6 +27,11 @@ public sealed class UtilityManager : MonoBehaviour
     public ThoughtBubble[] bubbles;
     public List<UnlockData> unlockDatas = new List<UnlockData>();
 
+    
+
+    [SerializeField] bool inMenu = false;
+    [SerializeField] bool gameover = false;
+
     public RawImage blackBox;
 
     public void Awake(){
@@ -52,13 +57,34 @@ public sealed class UtilityManager : MonoBehaviour
         if(GameData.current != null) LoadGame();
         else SetupData();
 
-        if(PlayerPrefs.GetInt("Dream") == 0){
-            music.clip = dreamMusic;
-        }else{
-             music.clip = nightmareMusic;
-        }
+        if(!inMenu){
+            if(PlayerPrefs.GetInt("Dream") == 0){
+                music.clip = dreamMusic;
+            }else{
+                 music.clip = nightmareMusic;
+             }
+            music.Play();
+        }   
+    }
 
-        music.Play();
+    public void UpdateTimer(float time){
+
+        if(gameover) return;
+        float minutes = Mathf.FloorToInt(time / 60);
+        float seconds = Mathf.FloorToInt(time % 60);
+
+        timer.text = string.Format("{0:00} : {1:00}", minutes, seconds);
+
+        if(time <= 0f){
+            gameover = true;
+            EndGame();
+      
+        }
+    }
+
+    void EndGame(){
+        StartCoroutine(UtilityManager.Instance.ScreenFade(1f, true, 0f));
+        StartCoroutine(UtilityManager.Instance.ChangeScene(0, 3f));         
     }
     
     public void CloseText(GameObject text, float speed){
@@ -146,13 +172,6 @@ public sealed class UtilityManager : MonoBehaviour
         }
     }
 
-    public void UpdateTimer(float time){
-
-        float minutes = Mathf.FloorToInt(time / 60);
-        float seconds = Mathf.FloorToInt(time % 60);
-
-        timer.text = string.Format("{0:00} : {1:00}", minutes, seconds);
-    }
 
     public void SetupData(){
         unlockDatas.Clear();

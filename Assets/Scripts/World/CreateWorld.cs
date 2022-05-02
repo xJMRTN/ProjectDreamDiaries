@@ -69,7 +69,7 @@ private static CreateWorld instance = new CreateWorld();
         SpawnGameLoop();
         SpawnTrees();
          GameEffects.Instance.StartEffects();
-        UtilityManager.instance.GetComponent<CameraEffects>().HeadPoint = GameObject.Find("Player(Clone)").transform;
+        UtilityManager.Instance.GetComponent<CameraEffects>().HeadPoint = GameObject.Find("Player(Clone)").transform;
 
     }
 

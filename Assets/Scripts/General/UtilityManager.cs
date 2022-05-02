@@ -155,6 +155,9 @@ public sealed class UtilityManager : MonoBehaviour
     public event Action onPlayerDie;
     public event Action onPlayerTakeDamage;
 
+    public event Action onGameEnd;
+
+
 
     public void PlayerDie()
     {
@@ -171,6 +174,13 @@ public sealed class UtilityManager : MonoBehaviour
         }
     }
 
+    public void GameEnd()
+    {
+        if (onGameEnd != null)
+        {
+            onGameEnd();
+        }
+    }
 
     public void DoorAoeTriggerEnter(int ID)
     {

@@ -32,6 +32,7 @@ private static CreateWorld instance = new CreateWorld();
     public bool spawnGhoul;
     public int amountOfGhouls;
     public bool timer;
+    public float timeTotal;
 
 
     Vector3 spawnPoint;
@@ -65,8 +66,8 @@ private static CreateWorld instance = new CreateWorld();
          CreateShape();
          UpdateMesh();
         GetComponent<NavMeshSurface>().BuildNavMesh();
-        SpawnTrees();
         SpawnGameLoop();
+        SpawnTrees();
          GameEffects.Instance.StartEffects();
         UtilityManager.instance.GetComponent<CameraEffects>().HeadPoint = GameObject.Find("Player(Clone)").transform;
 

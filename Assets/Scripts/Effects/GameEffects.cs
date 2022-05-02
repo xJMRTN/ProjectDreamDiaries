@@ -32,7 +32,7 @@ public class GameEffects : MonoBehaviour
     }
 
     void Start(){
-         UtilityManager.instance.onWinConditionMet += UnlockNewEffect;
+         UtilityManager.instance.onGameEnd += UnlockNewEffect;
 
          string gameEffect = PlayerPrefs.GetString("ModifierChoice");
          switch(gameEffect){

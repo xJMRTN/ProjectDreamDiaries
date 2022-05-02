@@ -14,6 +14,7 @@ private static CreateWorld instance = new CreateWorld();
     Vector2[] uv;
     MeshRenderer meshRenderer;
     Texture2D terrainTexture;
+    [SerializeField] Transform nonCopyTransform;
 
 
     [SerializeField] Vector2Int WorldSize;

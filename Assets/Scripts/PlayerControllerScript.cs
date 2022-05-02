@@ -37,7 +37,7 @@ public class PlayerControllerScript : MonoBehaviour
         UtilityManager.instance.onPlayerTakeDamage += takeDamage;
         GameObject.Find("EventManager").GetComponent<CameraEffects>().HeadPoint = mainCamera;
         cc.enabled = false;
-        transform.position = new Vector3(transform.position.x,transform.position.y + 1.5f,transform.position.z);
+        transform.position = new Vector3(transform.position.x,transform.position.y + 1.8f,transform.position.z);
         cc.enabled = true;
     }
 

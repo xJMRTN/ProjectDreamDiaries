@@ -162,12 +162,13 @@ public sealed class CameraEffects : MonoBehaviour
             MoveCamera();
         }
 
-        if(effect == CameraEffect.High){
-            if(!colourBusy) StartCoroutine(CalculateColours());
-            ChangeColours();
-        }
+        // if(effect == CameraEffect.High){
+        //     if(!colourBusy) StartCoroutine(CalculateColours());
+        //     ChangeColours();
+        // }
 
         if(Flooded)CheckIfInWater();
+
        
     }
 
@@ -176,6 +177,10 @@ public sealed class CameraEffects : MonoBehaviour
         liftValues = new Vector4(liftValues.x + Random.Range(-0.03f, 0.03f), liftValues.y + Random.Range(-0.03f, 0.03f), liftValues.z + Random.Range(-0.03f, 0.03f), liftValues.w);
         gammaValues = new Vector4(gammaValues.x + Random.Range(-0.03f, 0.03f), gammaValues.y + Random.Range(-0.03f, 0.03f), gammaValues.z + Random.Range(-0.03f, 0.03f), gammaValues.w);
         gainValues = new Vector4(gainValues.x + Random.Range(-0.03f, 0.03f), gainValues.y + Random.Range(-0.03f, 0.03f), gainValues.z + Random.Range(-0.03f, 0.03f), gainValues.w);
+
+       
+
+        
 
         yield return new WaitForSeconds(0.04f);
         colourBusy = false;
@@ -192,7 +197,7 @@ public sealed class CameraEffects : MonoBehaviour
         Mathf.Lerp(((Vector4)LGG.gamma).x, gammaValues.x, Time.deltaTime),
         Mathf.Lerp(((Vector4)LGG.gamma).y, gammaValues.y, Time.deltaTime),
         Mathf.Lerp(((Vector4)LGG.gamma).z, gammaValues.z, Time.deltaTime),
-        liftValues.w);
+        gammaValues.w);
 
         Vector4 newGain = new Vector4(
         Mathf.Lerp(((Vector4)LGG.gain).x, gainValues.x, Time.deltaTime),
@@ -200,6 +205,27 @@ public sealed class CameraEffects : MonoBehaviour
         Mathf.Lerp(((Vector4)LGG.gain).z, gainValues.z, Time.deltaTime),
         gainValues.w);
         
+        if(newLift.x < 1f) newLift.y = 1f;
+        if(newLift.y < 1f) newLift.z = 1f;
+        if(newLift.z < 1f) newLift.x = 1f;
+        if(newLift.x > 0.5f) newLift.x = 0.5f;
+        if(newLift.y > 0.5f) newLift.y = 0.5f;
+        if(newLift.z > 0.5f) newLift.z = 0.5f;
+
+        if(newGamma.x < 1f) newGamma.y = 1f;
+        if(newGamma.y < 1f) newGamma.z = 1f;
+        if(newGamma.z < 1f) newGamma.x = 1f;
+        if(newGamma.x > 0.5f) newGamma.x = 0.5f;
+        if(newGamma.y > 0.5f) newGamma.y = 0.5f;
+        if(newGamma.z > 0.5f) newGamma.z = 0.5f;
+
+        if(newGain.x < 1f) newGain.y = 1f;
+        if(newGain.y < 1f) newGain.z = 1f;
+        if(newGain.z < 1f) newGain.x = 1f;
+        if(newGain.x > 0.5f) newGain.x = 0.5f;
+        if(newGain.y > 0.5f) newGain.y = 0.5f;
+        if(newGain.z > 0.5f) newGain.z = 0.5f;
+
 
         LGG.lift.Override(newLift);
         LGG.gamma.Override(newGamma);

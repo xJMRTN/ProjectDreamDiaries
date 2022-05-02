@@ -322,13 +322,8 @@ MonoBehaviour:
   - {fileID: 4949291104415674149, guid: 064a84d7fd7ecea4ebc89343d11a9842, type: 3}
   objectiveObjects:
   - {fileID: 3536659589207382258, guid: 07fdaa60d0887274f90987cf53b05ed9, type: 3}
-  amountOfWinConditions: 1
-  spawnObjectiveObjects: 1
-  idOfObject: 0
-  spawnGhoul: 1
-  amountOfGhouls: 1
-  timer: 0
-  timeTotal: 0
+  - {fileID: 8557903222822210233, guid: c66f92f108b367042b4285a61e2700a3, type: 3}
+  - {fileID: 6154201130095240465, guid: 39066d391e3bee8469e43c436d413b40, type: 3}
 --- !u!23 &131569797
 MeshRenderer:
   m_ObjectHideFlags: 0

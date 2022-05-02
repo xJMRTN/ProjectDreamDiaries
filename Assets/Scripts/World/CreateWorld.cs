@@ -146,6 +146,10 @@ private static CreateWorld instance = new CreateWorld();
 
         SpawnObject(gameLoopObjects[0]);
         SpawnObject(gameLoopObjects[3]);
+        if (dream == "Nightmare")
+        {
+            SpawnObject(gameLoopObjects[1]);
+        }
 
         switch (objective)
         {
@@ -155,14 +159,20 @@ private static CreateWorld instance = new CreateWorld();
                 GameObject.Find("Win Condition Interactable(Clone)").GetComponent<AudioSource>().enabled = false;
                 break;
             case "Key":
-                
+                SpawnObject(objectiveObjects[1]);
+                GameObject.Find("Key(Clone)").GetComponent<KeyScript>().ID = 1;
+                SpawnObject(objectiveObjects[1]);
+                SpawnObject(objectiveObjects[1]);
+                SpawnObject(objectiveObjects[2]);
                 break;
             case "Sound":
                 SpawnObject(gameLoopObjects[2]);
-                SpawnObject(objectiveObjects[1]);
+                SpawnObject(objectiveObjects[0]);
                 break;
             case "Survive":
-                
+                SpawnObject(gameLoopObjects[1]);
+                SpawnObject(gameLoopObjects[1]);
+                SpawnObject(gameLoopObjects[1]);
                 break;
         }
         //SpawnObject(gameLoopObjects[0]);

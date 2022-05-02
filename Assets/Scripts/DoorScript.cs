@@ -17,7 +17,7 @@ public class DoorScript : MonoBehaviour
     {
         if (newID == ID)
         {
-            LeanTween.rotateY(this.gameObject, -90f, 1f);
+            LeanTween.rotateX(this.gameObject, -90f, 1f);
         }
     }
 

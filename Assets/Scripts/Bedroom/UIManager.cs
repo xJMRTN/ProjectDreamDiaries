@@ -161,6 +161,6 @@ public class UIManager : MonoBehaviour
         StartCoroutine(UtilityManager.Instance.ScreenFade(0.9f, true, 0f));
         UtilityManager.Instance.CloseText(ThoughtBubbles, TransitionSpeed);
         DecideGameChoices();
-        StartCoroutine(UtilityManager.Instance.ChangeScene(1, 10f));         
+        StartCoroutine(UtilityManager.Instance.ChangeScene(1, 6f));         
     }
 }

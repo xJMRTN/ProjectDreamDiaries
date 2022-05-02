@@ -36,6 +36,9 @@ public class PlayerControllerScript : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
         UtilityManager.instance.onPlayerTakeDamage += takeDamage;
         GameObject.Find("EventManager").GetComponent<CameraEffects>().HeadPoint = mainCamera;
+        cc.enabled = false;
+        transform.position = new Vector3(transform.position.x,transform.position.y + 1.5f,transform.position.z);
+        cc.enabled = true;
     }
 
     // Update is called once per frame

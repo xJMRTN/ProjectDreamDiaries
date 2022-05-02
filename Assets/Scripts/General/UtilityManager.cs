@@ -14,6 +14,12 @@ public sealed class UtilityManager : MonoBehaviour
     public Color NormalColour;
     [SerializeField] float moveTextSpeed;
 
+    [SerializeField] TextMeshProUGUI timer;
+    [SerializeField] TextMeshProUGUI objectiveText;
+    [SerializeField] AudioSource music;
+    [SerializeField] AudioClip dreamMusic;
+    [SerializeField] AudioClip nightmareMusic;
+
     public int winConditionstoWin = 1;
     int currentWinConditions = 0;
 
@@ -45,6 +51,14 @@ public sealed class UtilityManager : MonoBehaviour
         
         if(GameData.current != null) LoadGame();
         else SetupData();
+
+        if(PlayerPrefs.GetInt("Dream") == 0){
+            music.clip = dreamMusic;
+        }else{
+             music.clip = nightmareMusic;
+        }
+
+        music.Play();
     }
     
     public void CloseText(GameObject text, float speed){
@@ -113,6 +127,10 @@ public sealed class UtilityManager : MonoBehaviour
         SceneManager.LoadScene(sceneID);
     }
 
+    public void ChangeObjectiveText(string _text){
+        objectiveText.text = _text;
+    }
+
     public void LoadGame(){
         if(SaveLoad.GetCurrentScene() == 0){
             unlockDatas = GameData.current.unlockDatas;
@@ -126,6 +144,14 @@ public sealed class UtilityManager : MonoBehaviour
                 i++;
             }
         }
+    }
+
+    public void UpdateTimer(float time){
+
+        float minutes = Mathf.FloorToInt(time / 60);
+        float seconds = Mathf.FloorToInt(time % 60);
+
+        timer.text = string.Format("{0:00} : {1:00}", minutes, seconds);
     }
 
     public void SetupData(){

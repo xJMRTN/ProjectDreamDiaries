@@ -14,6 +14,8 @@ public class GameEffects : MonoBehaviour
     [SerializeField] GameEffect effect;
     [SerializeField] GameObject world;
 
+    [SerializeField] float timer;
+
     public void Awake(){
         if(instance == null) {
             instance = this;        
@@ -43,6 +45,29 @@ public class GameEffects : MonoBehaviour
                 effect = GameEffect.Normal;
                 break;
          }
+
+         string objEffect = PlayerPrefs.GetString("ObjectiveChoice");
+         switch(objEffect){
+             case "Find":
+                UtilityManager.Instance.ChangeObjectiveText("Find the frog and drop it off at the sign to escape.");
+                break;
+             case "Key":
+                UtilityManager.Instance.ChangeObjectiveText("Find the key to open the chest.");
+                break;
+            case "Sound":
+                UtilityManager.Instance.ChangeObjectiveText("Follow the sound to the frog and drop it off at the sign to escape.");
+                break;
+            case "Survive":
+                UtilityManager.Instance.ChangeObjectiveText("Don't let the Ghouls kill you. Survive.");
+                break;
+         }
+
+
+    }
+
+    void Update(){
+        timer -= Time.deltaTime;
+        UtilityManager.Instance.UpdateTimer(timer);
     }
 
     void UnlockNewEffect(){

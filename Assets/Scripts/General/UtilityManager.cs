@@ -76,8 +76,15 @@ public sealed class UtilityManager : MonoBehaviour
         timer.text = string.Format("{0:00} : {1:00}", minutes, seconds);
 
         if(time <= 0f){
-            gameover = true;
-            EndGame();
+
+            string objEffect = PlayerPrefs.GetString("ObjectiveChoice");
+            if(objEffect == "Survive"){
+                UtilityManager.Instance.WinConditionModify(1);
+            }else{
+                gameover = true;
+                EndGame();
+            }
+                 
       
         }
     }
